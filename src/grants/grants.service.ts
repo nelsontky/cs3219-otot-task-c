@@ -1,18 +1,19 @@
 import { Injectable } from "@nestjs/common";
 import { AccessControl } from "accesscontrol";
+import { Role } from "src/auth/role.enum";
 
 @Injectable()
 export class GrantsService {
   getGrants() {
     // this information can be from a database
     const grantsObject = {
-      user: {
+      [Role.User]: {
         cat: {
           "read:any": ["*"],
         },
       },
-      admin: {
-        $extend: ["user"],
+      [Role.Admin]: {
+        $extend: [Role.User],
         cat: {
           "create:any": ["*"],
         },
